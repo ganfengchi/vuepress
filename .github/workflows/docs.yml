@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: 16
           cache: yarn
-      - run: yarn install  vuepress@2.0.0-beta.49
+      # - run: yarn install  vuepress@2.0.0-beta.49
       - run: yarn install --frozen-lockfile
  
       - name: Build VuePress site
