@@ -23,7 +23,7 @@ module.exports = {
     // 指定缓存目录
     cache: './.cache',
     // 指定 build 的输出目录, 默认打包到 docs/.vuepress 里面
-    dest: './dist', // 现在会打包到与 docs 平级的目录下
+    // dest: './dist', // 现在会打包到与 docs 平级的目录下
     // 开发服务器地址和端口, 默认是 0.0.0.0:8080
     // vuepress 默认主题 的配置
     theme: defaultTheme({
