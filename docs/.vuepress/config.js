@@ -47,7 +47,7 @@ module.exports = {
         contributorsText: '作者',
         // 仓库配置
         repoLabel: 'github 仓库',
-        repo: 'https://gitee.com/gan-fengchi',
+        repo: 'https://github.com/ganfengchi',
         editLink: false
         // 设置默认主题使用的插件
         // themePlugins: {}
