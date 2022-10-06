@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+		   function b_uname(){
+		    var $uname=uname.value;
+		    if(!$uname){
+		     uname_msg.innerHTML="用户名不能为空";
+		    }else{
+		     uname_msg.innerHTML="√";
+		    }
+		   }
+		    function b_upwd(){
+		     var $upwd=upwd.value;
+		     if(!$upwd){
+		      upwd_msg.innerHTML="密码不能为空";
+		     }else{
+		      upwd_msg.innerHTML="√";
+		     } 
+		    }
+			
+			function login(){
+				var $uname=uname.value;
+				var $upwd=upwd.value;
+				if(!$uname){alert("用户名不能为空");return;}
+				if(!$upwd){alert("密码名不能为空");return;}
+				var xhr=new XMLHttpRequest();
+				xhr.onreadystatechange=function(){
+					 if(xhr.readyState==4 && xhr.status==200){
+						 var r=xhr.responseText;
+						 if(r==1){
+							 d1.innerHTML="登陆成功";
+							 location.href="http://127.0.0.1:8080/_v1list.html";
+						 }else{
+							 d1.innerHTML="登陆失败"
+						 }
+					 }
+				}
+				  
+			
+				xhr.open("get",`/pro1/v2/login/${$uname}&${$upwd}`,true);
+				xhr.send();
+			}
+		</script>
+			
+		
+		
+		
+		<style type="text/css">
+			*{margin: 0;padding: 0;}
+			#content{width: 1000px;height: 560px;
+			margin: 0 aotu; 
+			background-image: url(img/bg.png);
+			background-size: 100%;
+			background-repeat: no-repeat;
+				
+				
+			}
+			#content>div.black{width: 273px; height: 297px;
+			margin-top: 50px;
+			margin-left: 600px;
+			background-color: rgba(0,0,0,0.3);
+			padding: 5px;
+			}
+			#content>div.black>table{width: 100%;}
+			#content>div.black>table h4{color: #fff;
+			 margin: 10px 5px;}
+			 #content>div.black>table a{
+				 color: #fff;font-size: 12px;
+				 text-decoration: none;
+			 }
+			 #uname,#upwd{
+				 width: 100%;height: 35px;
+				 background-image: url(img/yhm.png);
+				 background-repeat: no-repeat;
+				 background-position: 97%;
+				 font-size: 12px;
+				 padding: 10px 0;
+				 padding-left: 20px;
+				 box-sizing: border-box;
+				 margin: 10px 0 20px 0;	 
+			 }
+			 #upwd{background-image: url(img/mm.png);}
+			 #content>div.black>table label{ font-size: 12px;color: #fff;}
+			 #content>div.black>table button{
+				 width: 100%; height: 37px;
+				 background-color: #0aa1ed;
+				 border: 0;
+				 outline: 0;
+				 border-radius: 2px;
+				 color: #fff;
+				 margin-top: 20px;
+			 }
+			 
+		</style>
+	  
+	
+	</head>
+	<body>
+		<div id="content">
+			<table></table>
+			<div class="black">
+				<table>
+					<tr>
+						<td><h4>登录学子商城</h4></td>
+						<td align="right"><a href="#">新用户登录</a></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<hr>
+						</td>
+						
+					</tr>
+					<tr>
+						<td colspan="2"><input type="text" id="uname"placeholder="请输入您的用户名"onfocus="f_uname()"onblur="b_uname()"> <span id="uname_msg"></span></td>
+						
+					</tr>
+					<tr>
+						<td colspan="2"><input type="text"id="upwd"placeholder="请输入请的密码" onfocus="f_upwd()"onblur="f_upwd"> <span id="upwd_msg"></span></td>
+						
+					</tr>
+					<tr>
+						<td><input type="checkbox"id="aotu"><label for="aotu">自动登录</label></td>
+						
+						<td align="right">
+							<a href="#">忘记密码</a>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+						  <button onclick="login()">登录</button><div id="d1"></div>
+						</td>
+						
+					</tr>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

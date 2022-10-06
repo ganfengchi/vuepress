@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title></title>
+  <script type="text/javascript">
+   function list(){
+    xhr=new XMLHttpRequest();
+    xhr.onreadystatechange=function(){
+     if(xhr.readyState==4 && xhr.status==200){
+      var r=xhr.responseText;
+      var arr=JSON.parse(r);
+      str=`
+       <table border="1">
+        <tr>
+         <th>编号</th>
+         <th>用户名</th>
+         <th>密码</th>
+         <th>电话</th>
+         <th>邮箱</th>
+		 <th>姓名</th>
+		 <th>头像</th>
+		 <th>性别</th>
+		 <th>操作</th>
+				 
+        </tr>
+       `;
+      for(var i=0,gender="保密";i<arr.length;i++){
+       if(arr[i].gender==1){
+        gender="男";
+       }else{
+        gender="女";
+       }
+       str+=`
+        <tr>
+         <td>${arr[i].uid}</td>
+         <td>${arr[i].uname}</td>
+         <td>${arr[i].upwd}</td>
+         <td>${arr[i].phone}</td>
+				 <td>${arr[i].email}</td>
+				 <td>${arr[i].user_name}</td>
+				 <td>${arr[i].avatar}</td>
+         <td>${gender}</td>
+				 <td>
+				 <a href="http://127.0.0.1:8080/_v1search.html?uid=${arr[i].uid}">修改</a>
+				 <a href="javascript:del(${arr[i].uid})">删除</a>
+				 </td>
+        </tr>
+       `;
+      }
+      str+=`</table>`;
+      d1.innerHTML=str;
+     }
+    }
+    xhr.open("get","/pro1/v1/list",true);
+    xhr.send();
+   }
+ function del($uid){
+ 			
+ 				 xhr=new XMLHttpRequest();
+ 				 xhr.onreadystatechange=function(){
+ 					 if(xhr.readyState==4 && xhr.status==200){
+ 						 var r=xhr.responseText;
+ 						
+ 						 if(r==1){
+ 							   alert("删除成功");
+ 							// location.href="http://127.0.0.1:8080/_v1list.html";
+ 						 list();
+						 }else{
+ 							    alert("删除失败");
+ 								//location.href="http://127.0.0.1:8080/_v1list.html";
+ 						 }
+ 					 }
+ 				 }
+ 				xhr.open('delete',`/pro1/v1/del/${$uid}`,true);
+ 				 xhr.send();
+ }
+ 
+ 
+ function show(){
+ 	var $uid=uid.value;
+ 	var $uname=uname.value;
+ 	var $upwd=upwd.value;
+ 	var $email=email.value;
+ 	//var $gender=gender.value;
+ 	 if(s1.checked==true){
+ 		var $gender=s1.value;
+ 	}else if (s1.checked==true){
+ 		var $gender=s2.value;
+ 	}
+ 
+ 	var $phone=phone.value;
+ 	if(!$uid){alert("请输入id");return}
+ 	if(!$uname){alert("请输入用户名");return}
+ 	if(!$upwd){alert("请输入密码");return}
+ 	if(!$email){alert("请输入邮箱");return}
+ 	//if(!$gender){alert("请输入性别");return}
+ 	if(!$phone){alert("请输入电话");return}
+ 	var xhr=new XMLHttpRequest();
+ 	xhr.onreadystatechange=function(){
+ 		if(xhr.readyState==4 && xhr.status==200){
+ 			var r=xhr.responseText;
+ 			d1.innerHTML=r;
+ 			
+ 		}
+ 	}
+ 	xhr.open("put","/pro/v1/update",true);
+ 	  var formdata=`uid=${$uid}&uname=${$uname}&upwd=${$upwd}&email=${$email}&phone=${$phone}&gender=${$gender}`;
+ 		xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+ 	xhr.send(formdata);
+ }
+ 	
+	</script>
+ </head>
+ <body onload="list()">
+  <div id="d1"></div>
+ </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+		function show(){
+			var 	xhr=new XMLHttpRequest();
+			xhr.onreadystatechange=function(){
+				if(xhr.readyState==4 && xhr.status==200){
+					var r=xhr.responseText;
+					console.log(r);
+					d1.innerHTML=r;
+				}
+			}
+			
+			
+			xhr.open('get','/ajax/ex1',true)
+			xhr.send();
+		}
+			
+		</script>
+	</head>
+	<body>
+		<div id="d1">
+			
+		</div>
+		  <button onclick="show()">显示</button>
+	</body>
+</html>

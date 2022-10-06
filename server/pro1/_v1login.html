@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+		   function check_uname(){
+		    var $uname=uname.value;
+		    if(!$uname){
+		     uname_msg.innerHTML="用户名不能为空";
+		    }else{
+		     uname_msg.innerHTML="√";
+		    }
+		   }
+		    function check_upwd(){
+		     var $upwd=upwd.value;
+		     if(!$upwd){
+		      upwd_msg.innerHTML="密码不能为空";
+		     }else{
+		      upwd_msg.innerHTML="√";
+		     } 
+		    }
+			
+			function login(){
+				var $uname=uname.value;
+				var $upwd=upwd.value;
+				if(!$uname){alert("用户名不能为空");return;}
+				if(!$upwd){alert("密码名不能为空");return;}
+				var xhr=new XMLHttpRequest();
+				xhr.onreadystatechange=function(){
+					 if(xhr.readyState==4 && xhr.status==200){
+						 var r=xhr.responseText;
+						 if(r==1){
+							 d1.innerHTML="登陆成功";
+							 location.href="http://127.0.0.1:8080/_v1list.html";
+						 }else{
+							 d1.innerHTML="登陆失败"
+						 }
+					 }
+				}
+				  
+			
+				xhr.open("get",`/pro1/v1/login/${$uname}&${$upwd}`,true);
+				xhr.send();
+			}
+		</script>
+	</head>
+	<body>
+		<input type="text" id="uname" onblur="check_uname()">
+		<span id="uname_msg"></span><br>
+		
+		<input type="text" id="upwd" onblur="check_upwd()">
+		<span id="upwd_msg"></span><br>
+		<button onclick="login()">登录</button>
+		<div id="d1">
+			
+		</div>
+	</body>
+</html>

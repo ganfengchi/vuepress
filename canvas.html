@@ -1,0 +1,125 @@
+<style>
+  #canvas {
+    position: fixed;
+    z-index: 99;
+    height: 100vh;
+    width: 100vw;
+    pointer-events: none;
+    background-image: linear-gradient(to right, #225cbd 0%, #2cd50e 100%);
+    opacity: 0.3;
+  }
+</style>
+<canvas id="canvas" style=" position: fixed;
+z-index: 99;
+height: 100vh;
+width: 100vw;
+pointer-events: none;
+background-color: #000;
+opacity: 0.7;"></canvas>
+<script>
+  //获取HTMLCanvasElement元素
+  let canvasEle = document.getElementById("canvas");
+  //画布宽度与窗口宽度相同
+  document.body.appendChild(canvasEle);
+  canvasEle.width = window.innerWidth;
+  //画布高度为320像素
+  canvasEle.height = 320;
+  //获取CanvasRenderingContext2D对象
+  let ctx = canvasEle.getContext("2d");
+  //设置填充颜色
+  ctx.fillStyle = "#fff";
+  //声明存储50个球体的数组
+  let circles = [];
+  //声明球体类
+  class Circle {
+    constructor() {
+      //X轴位置
+      this.x = Math.floor(Math.random() * canvasEle.width);
+      //Y轴位置
+      this.y = Math.floor(Math.random() * canvasEle.height);
+      //半径(3~8)
+      this.radius = Math.ceil(Math.random() * 5) + 3;
+      //速度(如果随机数的2倍超过1,则为正数;否则为负数)
+      this.xSpeed =
+        Math.random() * 2 > 1 ? Math.random() * 2 : -Math.random() * 2;
+      this.ySpeed =
+        Math.random() * 2 > 1 ? Math.random() * 2 : -Math.random() * 2;
+    }
+  }
+
+  //初始化 -- 绘制一帧
+  function init() {
+    for (n = 0; n < 150; n++) {
+      //创建球体对象
+      let circle = new Circle();
+      //将球体对象添加到circles数组中
+      circles.push(circle);
+      //开始新的路径
+      ctx.beginPath();
+      //指定路径的起点
+      ctx.moveTo(circle.x, circle.y);
+      //通过arc()方法进行绘制路径
+      ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI);
+      //通过fill()方法完成绘制
+      ctx.fill();
+    }
+    console.log(circles);
+  }
+
+  //循环绘制动画帧
+  function animation() {
+    //清理画布
+    ctx.clearRect(0, 0, canvasEle.width, canvasEle.height);
+    for (let n = 0; n < 150; n++) {
+      //获取到每一个球体对象
+      ctx.fillStyle = `rgb(${255 * Math.random()},${255 * Math.random()},${
+        255 * Math.random()
+      })`;
+      let circle = circles[n];
+      circle.x += circle.xSpeed;
+      circle.y += circle.ySpeed;
+      //开始新的路径
+      ctx.beginPath();
+      //指定路径的起点
+      ctx.moveTo(circle.x, circle.y);
+      //绘制球体
+      ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI);
+      //通过fill()方法完成绘制
+      ctx.fill();
+      if (circle.x > canvasEle.width - circle.radius || circle.x <= 0) {
+        circle.xSpeed = -circle.xSpeed;
+      }
+      if (circle.y > canvasEle.height - circle.radius || circle.y <= 0) {
+        circle.ySpeed = -circle.ySpeed;
+      }
+    }
+    connect();
+    window.requestAnimationFrame(animation);
+  }
+
+  function connect() {
+    for (let n = 0; n < 150; n++) {
+      for (let i = n + 1; i < 150; i++) {
+        //勾股定理
+        let distance = Math.sqrt(
+          (circles[n].x - circles[i].x) * (circles[n].x - circles[i].x) +
+            (circles[n].y - circles[i].y) * (circles[n].y - circles[i].y)
+        );
+        if (distance <= 50) {
+          ctx.strokeStyle = `rgb(${255 * Math.random()},${
+            255 * Math.random()
+          },${255 * Math.random()})`;
+          ctx.beginPath();
+          ctx.moveTo(circles[n].x, circles[n].y);
+          ctx.lineTo(circles[i].x, circles[i].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  //调用初始化函数
+  init();
+  //调用动画处理函数
+  animation();
+</script>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title></title>
+  <script type="text/javascript">
+   function show(){
+    var xhr=new XMLHttpRequest();
+    xhr.onreadystatechange=function(){
+     if(xhr.status==200 && xhr.readyState==4){
+      var r=xhr.responseText;
+      //r是一个json字符串,我们需要把它解析成js对象
+      var arr=JSON.parse(r);
+      //d1.innerHTML=str;
+      var str=`
+       <table border=1>
+        <tr>
+         <th>编号</th>
+         <th>用户名</th>
+         <th>密码</th>
+         <th>邮箱</th>
+         <th>电话</th>
+         <th>头像</th>
+         <th>真实姓名</th>
+         <th>姓名</th>
+        </tr>
+      `;
+      for(var i=0;i<arr.length;i++){
+       str+=`
+        <tr>
+         <td>${arr[i].uid}</td>
+         <td>${arr[i].uname}</td>
+         <td>${arr[i].upwd}</td>
+         <td>${arr[i].emali}</td>
+         <td>${arr[i].phone}</td>
+         <td>${arr[i].avatar}</td>
+         <td>${arr[i].user_name}</td>
+         <td>${arr[i].gender}</td>
+        </tr>
+       `;
+        
+      }
+      str+=`</table>`;
+      d1.innerHTML=str;
+     }
+    }
+    xhr.open("get","/ajax/get",true);
+    xhr.send(); 
+   }
+  </script>
+ </head>
+ <body onload="show()">
+  <br>
+  <div id="d1"></div>
+ </body>
+</html>
