@@ -18,7 +18,7 @@ module.exports = {
     lang: 'zh-CN',
     title: '欢迎来到甘丰迟的博客,更新中...',
     description: '这是我的第一个 VuePress 站点',
-    base: "/blog/",
+    base: "/myblog/",
     temp: './.temp',
     // 指定缓存目录
     cache: './.cache',
