@@ -251,10 +251,10 @@ module.exports = {
                
             ]
         },
-        // {
-        //     text: 'angular',
-        //     link: '/view/sidebar/angular.md',
-        // },
+        {
+            text: 'angular',
+            link: '/view/sidebar/angular.md',
+        },
         {
             text: 'nodejs',
             collapsible:true,
