@@ -200,6 +200,10 @@ module.exports = {
                     text: '最强大的 CSS 布局 —— Grid 布局',
                     link: '/view/sidebar/myExperience/gridLayout2',
                 },
+                {
+                    text: 'svg 标签的用法',
+                    link: '/view/sidebar/myExperience/svg',
+                },
             ]
         },
         {
