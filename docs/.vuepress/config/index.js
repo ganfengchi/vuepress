@@ -204,6 +204,10 @@ module.exports = {
                     text: 'svg 标签的用法',
                     link: '/view/sidebar/myExperience/svg',
                 },
+                {
+                    text: '你不知道的 flex  flex-grow、flex-shrink、flex-basis',
+                    link: '/view/sidebar/myExperience/cssFlex',
+                },
             ]
         },
         {
