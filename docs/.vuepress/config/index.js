@@ -208,6 +208,11 @@ module.exports = {
                     text: '你不知道的 flex  flex-grow、flex-shrink、flex-basis',
                     link: '/view/sidebar/myExperience/cssFlex',
                 },
+                {
+                    text: 'CSS动画（animation）',
+                    link: '/view/sidebar/myExperience/animation',
+                },
+                
             ]
         },
         {
