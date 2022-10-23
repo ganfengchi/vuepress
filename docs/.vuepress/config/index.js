@@ -212,6 +212,10 @@ module.exports = {
                     text: 'CSS动画（animation）',
                     link: '/view/sidebar/myExperience/animation',
                 },
+                {
+                    text: '读懂Canvas',
+                    link: '/view/sidebar/myExperience/canvas',
+                },
                 
             ]
         },
