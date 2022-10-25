@@ -2586,3 +2586,648 @@ Path2D()有不少方法，先了解一下：<br/>
 ```
 
 ![alt canvas_60](../../../../docs/.vuepress/public/images/canvas_60.webp)
+
+总结一下绘制动画的基本步骤
+
+`清空 canvas`：除非接下来要画的内容会完全充满 canvas（例如背景图），否则需要清空所有。最简单的做法就是用 clearRect 方法。<br/>
+`保存 canvas 状态`：如果要改变 canvas 状态的设置（样式，变形之类的），之后又要在每画一帧之时都是原始状态的情况时，需要先保存一下。
+绘制动画图形（animated shapes）<br/>
+`恢复 canvas 状态`：如果已经保存了 canvas 的状态，可以先恢复它，然后重绘下一帧。<br/>
+
+### 高级动画
+高级动画就是在初级动画的基础上加上一些符合物理的运动，这样就能使我们的动画更生动而不是那么的呆板。
+下面我们一步步来实现一个小球的自由落体的运动。
+### 绘制小球
+首先我们先绘制一个小球，直接上代码：
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 动画</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <script>
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if(canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      var ball = {
+        x: 100,
+        y: 100,
+        radius: 25,
+        color: 'blue',
+        draw: function() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      };
+      ball.draw();
+    }
+  </script>
+</body>
+</html>
+```
+
+![alt canvas_61](../../../../docs/.vuepress/public/images/canvas_61.webp)
+
+### 速率
+我们通过给小球添加速率矢量进行移动。这个依旧用requestAnimationFrame() 方法来实现，在每一帧里面，依旧用clear 清理掉之前帧里旧的圆形。
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 裁剪</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <script>
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if(canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      var ball = {
+        x: 100,
+        y: 100,
+        vx: 1,
+        vy: 3,
+        radius: 25,
+        color: 'blue',
+        draw: function() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      };
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ball.draw();
+        // 添加速率
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+       window.requestAnimationFrame(draw);
+      }
+      window.requestAnimationFrame(draw);
+      ball.draw();
+    }
+  </script>
+</body>
+</html>
+```
+效果如下：
+![alt canvas_62](../../../../docs/.vuepress/public/images/canvas_62.webp)
+
+### 边界
+想让小球反弹那么我们就需要添加边界
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 裁剪</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <script>
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if(canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      var ball = {
+        x: 100,
+        y: 100,
+        vx: 1,
+        vy: 3,
+        radius: 25,
+        color: 'blue',
+        draw: function() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      };
+      function draw() {
+        ctx.clearRect(0,0, canvas.width, canvas.height);
+        ball.draw();
+        // 添加速率
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        // 添加边界
+        if (ball.y + ball.vy > canvas.height || ball.y + ball.vy < 0) {
+          ball.vy = -ball.vy;
+        }
+        if (ball.x + ball.vx > canvas.width || ball.x + ball.vx < 0) {
+          ball.vx = -ball.vx;
+        }
+       window.requestAnimationFrame(draw);
+      }
+      window.requestAnimationFrame(draw);
+      ball.draw();
+    }
+  </script>
+</body>
+</html>
+```
+添加完边界的效果如下：
+
+![alt canvas_63](../../../../docs/.vuepress/public/images/canvas_63.webp)
+
+### 加速度
+为了让动作更真实，我们还需要加入加速度的处理。
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 裁剪</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <script>
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if(canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      var ball = {
+        x: 100,
+        y: 100,
+        vx: 1,
+        vy: 3,
+        radius: 25,
+        color: 'blue',
+        draw: function() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      };
+      function draw() {
+        ctx.clearRect(0,0, canvas.width, canvas.height);
+        ball.draw();
+        // 添加加速度
+        ball.vy *= .99;
+        ball.vy += .25;
+        // 添加速率
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        // 添加边界
+        if (ball.y + ball.vy > canvas.height || ball.y + ball.vy < 0) {
+          ball.vy = -ball.vy;
+        }
+        if (ball.x + ball.vx > canvas.width || ball.x + ball.vx < 0) {
+          ball.vx = -ball.vx;
+        }
+       window.requestAnimationFrame(draw);
+      }
+      window.requestAnimationFrame(draw);
+      ball.draw();
+    }
+  </script>
+</body>
+</html>
+```
+效果如下：
+![alt canvas_64](../../../../docs/.vuepress/public/images/canvas_64.webp)
+
+### 拖尾效果
+加一个拖尾效果：
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 裁剪</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <script>
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if(canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      var ball = {
+        x: 100,
+        y: 100,
+        vx: 1,
+        vy: 3,
+        radius: 25,
+        color: 'blue',
+        draw: function() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      };
+      function draw() {
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // 用带透明度的矩形代替清空
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ball.draw();
+        // 添加加速度
+        ball.vy *= .995;
+        ball.vy += .15;
+        // 添加速率
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        // 添加边界
+        if (ball.y + ball.vy > canvas.height || ball.y + ball.vy < 0) {
+          ball.vy = -ball.vy;
+        }
+        if (ball.x + ball.vx > canvas.width || ball.x + ball.vx < 0) {
+          ball.vx = -ball.vx;
+        }
+       window.requestAnimationFrame(draw);
+      }
+      window.requestAnimationFrame(draw);
+      ball.draw();
+    }
+  </script>
+</body>
+</html>
+```
+效果如下：
+![alt canvas_65](../../../../docs/.vuepress/public/images/canvas_65.webp)
+
+
+### 应用
+   > 最后说一下Canvas的应用。首先是可视化数据的应用，比如说：百度的ECharts、阿里的G2等图表可视化插件。其次是游戏的应用，Canvas 在基于Web的图像显示方面比 Flash 更加立体、精巧，且Canvas游戏在流畅度和跨平台方面更牛。还有图形编辑器的应用，比如可视化组态编辑工具HT，它完全基于Canvas绘制。未来Photoshop能够基于Canvas在web端100%实现。最后模拟器的应用，模拟器产品可以完全由 canvas 来实现，视觉效果上更加逼真模拟实际生活中的工具，进一步优化物联网环境下的使用体验，降低使用者的学习成本。总是未来Canvas的应用只会越来越普遍，所以具备Canvas这门技术是必不可缺的。
+今天呢咱们不可能讲解如何用Canvas开发一个游戏或者如何实现一个Photoshop。今天只能说一些平常咱们开发中常用的小应用，比如：保存图片、图片灰度或者反相颜色等。
+
+### 保存图片
+保存图片主要应用的方法是：`toDataURL()`<br/>
+语法：`canvas.toDataURL('image/png')`，默认设定创建一个 PNG 图片。<br/>
+`canvas.toDataURL('image/jpeg', quality)`，也可以设定为创建一个 JPG 图片。还能有选择地提供从 0 到 1 的品质量，1 表示最好品质，0 表示品质最差基本无法辨别。<br/>
+当我们用toDataURL()方法从画布中生成了一个数据链接后，我们可以将它用于元素显示出来，也可以将它放在一个有 download 属性的超链接里用于保存到本地。<br/>
+举个例子看一下：
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 保存图片</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+      float: left;
+    }
+    img {
+      width: 500px;
+      height: 500px;
+      float: right;
+    }
+    button {
+      position: absolute;
+      top: 550px;
+      left: 50%;
+      margin-left: -40px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <img id="img" src="https://t7.baidu.com/it/u=1819248061,230866778&fm=193&f=GIF" />
+  <button id="btn">转化为图片且下载</button>
+  <script>
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    var Img = document.getElementById('img');
+    var Btn = document.getElementById('btn');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if(canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      var ball = {
+        x: 100,
+        y: 100,
+        vx: 1,
+        vy: 3,
+        radius: 25,
+        color: 'blue',
+        draw: function() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      };
+      function draw() {
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // 用带透明度的矩形代替清空
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ball.draw();
+        // 添加加速度
+        ball.vy *= .995;
+        ball.vy += .15;
+        // 添加速率
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        // 添加边界
+        if (ball.y + ball.vy > canvas.height || ball.y + ball.vy < 0) {
+          ball.vy = -ball.vy;
+        }
+        if (ball.x + ball.vx > canvas.width || ball.x + ball.vx < 0) {
+          ball.vx = -ball.vx;
+        }
+       window.requestAnimationFrame(draw);
+      }
+      window.requestAnimationFrame(draw);
+      ball.draw();
+    }
+    Btn.addEventListener('click', function(){
+      // 将canvas转换成base64的url
+      var url = canvas.toDataURL("image/png"); 
+      // 把Canvas 转化为图片
+      Img.src = url;
+      // 将base64转换为文件对象
+      var arr = url.split(",")
+      var mime = arr[0].match(/:(.*?);/)[1] // 此处得到的为文件类型
+      var bstr = atob(arr[1]) // 此处将base64解码
+      var n = bstr.length
+      var u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      // 通过以下方式将以上变量生成文件对象，三个参数分别为文件内容、文件名、文件类型
+      var file = new File([u8arr], "filename", { type: mime });
+      // 将文件对象通过a标签下载
+      var aDom = document.createElement("a"); // 创建一个 a 标签
+      aDom.download = file.name; // 设置文件名
+      let href = URL.createObjectURL(file); // 将file对象转成 UTF-16 字符串
+      aDom.href = href; // 放入href
+      document.body.appendChild(aDom); // 将a标签插入 body
+      aDom.click(); // 触发 a 标签的点击
+      document.body.removeChild(aDom); // 移除刚才插入的 a 标签
+      URL.revokeObjectURL(href); // 释放刚才生成的 UTF-16 字符串
+    });
+  </script>
+</body>
+</html>
+```
+效果如下：
+![alt canvas_66](../../../../docs/.vuepress/public/images/canvas_66.webp)
+
+### 反相颜色
+我们可以遍历所有像素然后改变他们的数值，然后将被修改的像素数组通过 putImageData() 方法放回到画布中去，以达到反相颜色。invert 函数仅仅是去减掉颜色的最大色值 255，grayscale 函数仅仅是用红绿和蓝的平均值。也可以用加权平均，例如` x = 0.299r + 0.587g + 0.114b` 这个公式。
+直接上例子吧：
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 保存图片</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+      float: left;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="1000" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <button id="original">Original</button>
+  <button id="grayscale">Grayscale</button>
+  <button id="inverted">Inverted</button>
+  <script>
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    var originalEl = document.getElementById('original');
+    var grayscaleEl = document.getElementById('grayscale');
+    var invertedEl = document.getElementById('inverted');
+    var sepiaEl = document.getElementById('sepia');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if(canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      var img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = 'https://t7.baidu.com/it/u=1819248061,230866778&fm=193&f=GIF';
+      img.onload = function() {
+        ctx.drawImage(img, 0, 0);
+      };
+      var original = function() {
+        ctx.drawImage(img, 0, 0);
+      };
+      var invert = function() {
+        ctx.drawImage(img, 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        for (var i = 0; i < data.length; i += 4) {
+          data[i]     = 255 - data[i];     // red
+          data[i + 1] = 255 - data[i + 1]; // green
+          data[i + 2] = 255 - data[i + 2]; // blue
+        }
+        ctx.putImageData(imageData, 0, 0);
+      };
+
+      var grayscale = function() {
+        ctx.drawImage(img, 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        for (var i = 0; i < data.length; i += 4) {
+          var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+          data[i]     = avg; // red
+          data[i + 1] = avg; // green
+          data[i + 2] = avg; // blue
+        }
+        ctx.putImageData(imageData, 0, 0);
+      };
+      originalEl.addEventListener("click", function(evt) {
+        original()
+      })
+      grayscaleEl.addEventListener("click", function(evt) {
+        grayscale()
+      })
+      invertedEl.addEventListener("click", function(evt) {
+        invert()
+      })
+    }
+  </script>
+</body>
+</html>
+```
+效果如下：
+![alt canvas_67](../../../../docs/.vuepress/public/images/canvas_67.webp)
+
+### 像素数据
+上面的场景中我们使用了一个方法：`getImageData()`。
+该方法会返回一个 ImageData对象，它是画布区域的数据，画布的四个角分别表示为 `(left, top)、(left + width, top)、(left, top + height)和(left + width, top + height)` 四个点。
+这四个坐标点被设定为画布坐标空间元素。
+语法：ctx.getImageData(left, top, width, height)
+接来下我们再用这个方法做一个拾色器
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 拾色器</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+      float: left;
+    }
+    div {
+      width: 200px;
+      height: 500px;
+      float: left;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <div id="hovered"></div>
+  <div id="selected"></div>
+  <script>
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    var originalEl = document.getElementById('original');
+    var grayscaleEl = document.getElementById('grayscale');
+    var invertedEl = document.getElementById('inverted');
+    var sepiaEl = document.getElementById('sepia');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if(canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      var img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = 'https://t7.baidu.com/it/u=1819248061,230866778&fm=193&f=GIF';
+      img.onload = function() {
+        ctx.drawImage(img, 0, 0);
+        img.style.display = 'none';
+      };
+      var hoveredColor = document.getElementById('hovered');
+      var selectedColor = document.getElementById('selected');
+      function pickColor(type, event, destination) {
+        var x = event.layerX;
+        var y = event.layerY;
+        var pixel = ctx.getImageData(x, y, 1, 1);
+        var data = pixel.data;
+        const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
+        destination.style.background = rgba;
+        if(type === 'move') {
+          destination.textContent = "划过的颜色为：" + rgba;
+        } else {
+          destination.textContent = "选中的颜色为：" + rgba;
+        }
+        return rgba;
+      }
+      canvas.addEventListener('mousemove', function(event) {
+          pickColor('move', event, hoveredColor);
+      });
+      canvas.addEventListener('click', function(event) {
+          pickColor('click', event, selectedColor);
+      });
+    }
+  </script>
+</body>
+</html>
+```
+效果如下：
+![alt canvas_68](../../../../docs/.vuepress/public/images/canvas_68.webp)
+
+### 结语
+>Canvas在刚推出时主打的优势就是更快的渲染速度，刷新了人们对Web页面元素绘制速度的印象，但Canvas的优势却不仅限于此。<br/>
+随着技术的不断更新Canvas的应用也越来越广泛，各种可视化图标、游戏和各种图形化编辑器都把Canvas突显的淋漓尽致，尤其Google Docs已经宣布将会把HTML迁移到基于Canvas渲染，这一消息的出现又把Canvas推上了一个新的高度。<br/>
+总之Canvas只会越来越重要，它一定会成为每个前端工程师必备的技能之一。所以学会它掌握它让你的技能图谱再添一员猛将。<br/>
+
+
+
+
