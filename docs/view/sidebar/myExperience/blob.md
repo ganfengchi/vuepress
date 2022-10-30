@@ -2,6 +2,9 @@
 
 在一般的 Web 开发中，很少会用到 Blob，但 Blob 可以满足一些场景下的特殊需求。Blob，Binary Large Object 的缩写，代表二进制类型的大对象。Blob 的概念在一些数据库中有使用到，例如，MYSQL 中的 BLOB 类型就表示二进制数据的容器。在 Web 中，Blob 类型的对象表示不可变的类似文件对象的原始数据，通俗点说，就是 Blob 对象是二进制数据，但它是类似文件对象的二进制数据，因此可以像操作 File 对象一样操作 Blob 对象，实际上，File 继承自 Blob。
 
+### MIME（媒体类型）常见的类型
+![alt MiME](../../../../docs/.vuepress/public/images/mime_type.png)
+
 ### Blob 基本用法
 
 ```js

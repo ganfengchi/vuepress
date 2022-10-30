@@ -216,6 +216,10 @@ module.exports = {
                     text: '读懂Canvas',
                     link: '/view/sidebar/myExperience/canvas',
                 },
+                {
+                    text: 'MIME类型',
+                    link: '/view/sidebar/myExperience/mime_type',
+                },
                 
             ]
         },
