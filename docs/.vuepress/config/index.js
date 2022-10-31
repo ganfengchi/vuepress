@@ -220,6 +220,10 @@ module.exports = {
                     text: 'MIME类型',
                     link: '/view/sidebar/myExperience/mime_type',
                 },
+                {
+                    text: 'Vue 自定义指令',
+                    link: '/view/sidebar/myExperience/vue_directive',
+                },
                 
             ]
         },
