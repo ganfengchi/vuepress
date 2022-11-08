@@ -256,6 +256,10 @@ module.exports = {
       collapsible: true,
       children: [
         {
+          text: "React 开发必须知道的 34 个技巧",
+          link: "/view/sidebar/react/react_DevelopmentSkills",
+        },
+        {
           text: "react 生命周期",
           link: "/view/sidebar/react/react_life_cycle",
         },
