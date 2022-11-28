@@ -24,9 +24,13 @@ module.exports = {
     },
 
     {
-      text: "一些经验重要...",
+      text: "很多有用的杂文",
       collapsible: true,
       children: [
+        {
+          text: "手写call bind apply Promise等等",
+          link: "/view/sidebar/myExperience/writtes",
+        },
         {
           text: "event事件与 vue修饰符",
           link: "/view/sidebar/myExperience/domDefaultEvent",
