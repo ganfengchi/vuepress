@@ -293,7 +293,7 @@ const arraylist = [
 ```
 
 ```js
-function unique(arr){
+function unique(arr=[]){
     const newArr=[]
     arr.forEach((item)=>{
         if(typeof item!='object'&&item!=null){
@@ -308,6 +308,21 @@ function unique(arr){
     return newArr
 }
 unique(arraylist);
+```
+
+方法 2
+
+```js
+function filterArrays(arr = []) {
+  let newArr = [];
+  arr.forEach((item) => {
+    const str = JSON.stringify(item);
+    const strArr = JSON.stringify(newArr);
+    if (!strArr.includes(str)) {
+      newArr.push(item);
+    }
+  });
+}
 ```
 
 ### 使用 Promise 实现每隔 1 秒输出 1,2,3
