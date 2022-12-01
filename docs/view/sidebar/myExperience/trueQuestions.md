@@ -157,3 +157,27 @@ class EventEmitter {
   }
 }
 ```
+
+```js
+//字节真题
+//树的每一个节点包含了 id 和 label 字段，实现一个函数，输入关键字 searchKey，用于树节点 label 的匹配，查找 searchKey 对应树节点的 id，如果查找不到则返回 null
+// 树结构 nodes = [node, node, node , ...]
+// 节点  node = { id, label, children: [node, node] }
+// 如果是叶子节点， children = undefined
+
+function searchTree(nodes, searchKey) {
+  for (let _i = 0; _i < nodes.length; _i++) {
+    if (nodes[_i].label === searchKey) {
+      return nodes[_i].id;
+    } else {
+      if (nodes[_i].children && nodes[_i].children.length > 0) {
+        let res = searchTree(nodes[_i].children, searchKey);
+        if (res) {
+          return res;
+        }
+      }
+    }
+  }
+  return null;
+}
+```
