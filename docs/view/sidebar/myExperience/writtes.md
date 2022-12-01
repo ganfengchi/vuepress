@@ -407,3 +407,89 @@ function ListToTree(arr) {
   return data;
 }
 ```
+
+### 考察 Promise
+
+```js
+async function async1() {
+  console.log("async1 start");
+  await async2();
+  console.log("async1 stop");
+}
+
+async function async2() {
+  console.log("async2");
+}
+console.log("script start"); //1
+setTimeout(function () {
+  console.log("setTimeout");
+}, 0);
+async1();
+
+new Promise((resolve) => {
+  console.log("promise1");
+  resolve();
+  console.log("promise2");
+}).then(function () {
+  console.log("promise3");
+});
+console.log("script end");
+//script start
+//async1 start
+//async2
+//promise1
+//promise2
+//script end
+//async1 stop
+//promise3
+//setTimeout
+```
+
+题 2
+
+```javascript
+console.log("script start");
+async function async1() {
+  await async2();
+  console.log("async1 end");
+}
+async function async2() {
+  console.log("async2 start");
+  return Promise.resolve().then(() => {
+    console.log("async2 end");
+  });
+}
+async1();
+
+setTimeout(function () {
+  console.log("setTimeout");
+}, 0);
+
+new Promise((resolve) => {
+  console.log("Promise");
+  resolve();
+})
+  .then(function () {
+    console.log("promise1");
+  })
+  .then(function () {
+    console.log("promise2");
+  })
+  .then(function () {
+    console.log("promise3");
+  })
+  .then(function () {
+    console.log("promise4");
+  });
+console.log("script end");
+//script start
+//async2 start
+//Promise
+//script end
+//async2 end
+//promise1
+//promise2
+//promise3
+//async1 end
+//setTimeout
+```

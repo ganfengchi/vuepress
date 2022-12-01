@@ -227,6 +227,11 @@ module.exports = {
           text: "Vue 自定义指令",
           link: "/view/sidebar/myExperience/vue_directive",
         },
+        {
+          text: "面试真题",
+          link: "/view/sidebar/myExperience/trueQuestions",
+        },
+        
       ],
     },
     {
