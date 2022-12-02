@@ -181,4 +181,29 @@ function searchTree(nodes, searchKey) {
   return null;
 }
 ```
-哈哈
+
+```js
+//(a==1&&a==2&&a==3)
+
+let _a = 1;
+Object.defineProperty(window, "a", {
+  get: function () {
+    return _a++;
+  },
+});
+if (a == 1 && a == 2 && a == 3) {
+  console.log("hello world");
+}
+
+let a = new Proxy(
+  { i: 1 },
+  {
+    get: function (target) {
+      return () => target.i++;
+    },
+  }
+);
+if (a == 1 && a == 2 && a == 3) {
+  console.log("hello world");
+}
+```
