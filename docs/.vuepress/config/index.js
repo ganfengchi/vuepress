@@ -231,6 +231,10 @@ module.exports = {
           text: "面试真题",
           link: "/view/sidebar/myExperience/trueQuestions",
         },
+        {
+          text: "大屏适配方案 screenAuto",
+          link: "/view/sidebar/myExperience/screenAuto",
+        },
         
       ],
     },
