@@ -134,9 +134,10 @@ class EventEmitter {
     }
   }
   // 触发事件的方法
-  emit(eventName) {
+  emit(eventName,...args) {
     // 遍历执行所有订阅的事件
-    this.events[eventName] && this.events[eventName].forEach((cb) => cb());
+    // this.events[eventName] && this.events[eventName].forEach((cb) => cb());
+     this.events[eventName] && this.events[eventName].forEach((cb) => cb.apply(this,args);
   }
   // 移除订阅事件
   removeListener(eventName, callback) {
