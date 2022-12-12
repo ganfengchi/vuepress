@@ -28,6 +28,10 @@ module.exports = {
       collapsible: true,
       children: [
         {
+          text: "虚拟列表",
+          link: "/view/sidebar/myExperience/virtualList",
+        },
+        {
           text: "手写call bind apply Promise等等",
           link: "/view/sidebar/myExperience/writtes",
         },
