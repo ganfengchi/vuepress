@@ -30,7 +30,7 @@ function gourping(list) {
   const cache = {};
   const targetlist = [];
   list.forEach((item) => {
-    // 对象相同的不能有相同的key
+    // 对象不能有相同的key
     cache[item.type] = cache[item.type] || [];
     cache[item.type].push(item);
   });
