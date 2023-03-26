@@ -239,7 +239,10 @@ module.exports = {
           text: "大屏适配方案 screenAuto",
           link: "/view/sidebar/myExperience/screenAuto",
         },
-        
+        {
+          text: "分组算法",
+          link: "/view/sidebar/myExperience/grouping",
+        },
       ],
     },
     {

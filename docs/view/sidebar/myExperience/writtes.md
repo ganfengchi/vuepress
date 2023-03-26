@@ -325,6 +325,45 @@ function filterArrays(arr = []) {
 }
 ```
 
+```js
+function array_unique(arr) {
+  let len = arr.length;
+  if (!len) {
+    return [];
+  }
+  let tmp = [];
+  for (let i = 0; i < len; i++) {
+    if (
+      tmp.findIndex((v) => {
+        return JSON.stringify(v) === JSON.stringify(arr[i]);
+      }) === -1
+    ) {
+      tmp.push(arr[i]);
+    }
+  }
+  return tmp;
+}
+let arr = [
+  1,
+  2,
+  3,
+  4,
+  "1",
+  2,
+  undefined,
+  undefined,
+  "undefined",
+  NaN,
+  NaN,
+  {},
+  {},
+  { a: 1 },
+  { a: 1 },
+];
+let newArr = array_unique(arr);
+console.log(newArr);
+```
+
 ### 使用 Promise 实现每隔 1 秒输出 1,2,3
 
 这道题比较简单的一种做法是可以用 Promise 配合着 reduce 不停的在 promise 后面叠加.then，请看下面的代码：
