@@ -243,6 +243,10 @@ module.exports = {
           text: "分组算法",
           link: "/view/sidebar/myExperience/grouping",
         },
+        {
+          text: "强引用与弱引用",
+          link: "/view/sidebar/myExperience/weakMap",
+        },
       ],
     },
     {
