@@ -532,3 +532,47 @@ console.log("script end");
 //async1 end
 //setTimeout
 ```
+
+```javascript
+function mergeArrayObjects(array1, array2, key) {
+  const mergedArray = array1.reduce((result, obj) => {
+    const existingObj = result.find(item => item[key] === obj[key]);
+    if (existingObj) {
+      Object.assign(existingObj, obj); // 合并对象属性
+    } else {
+      result.push(obj); // 如果不存在，则将当前对象添加到结果数组中
+    }
+    return result;
+  }, array2.slice());
+
+  return mergedArray;
+}
+
+// 示例数据
+const array1 = [
+  { id: 1, name: 'Apple', price: 2 },
+  { id: 2, name: 'Banana', price: 3 },
+  { id: 3, name: 'Orange', price: 4 }
+];
+
+const array2 = [
+  { id: 2, name: 'Banana', quantity: 5 },
+  { id: 3, name: 'Orange', quantity: 3 },
+  { id: 4, name: 'Grape', quantity: 6 }
+];
+
+// 合并相同 id 值的数组对象
+const mergedArray = mergeArrayObjects(array1, array2, 'id');
+
+console.log(mergedArray);
+
+[
+  { id: 1, name: 'Apple', price: 2 },
+  { id: 2, name: 'Banana', price: 3, quantity: 5 },
+  { id: 3, name: 'Orange', price: 4, quantity: 3 },
+  { id: 4, name: 'Grape', quantity: 6 }
+]
+// 在上述示例中，mergeArrayObjects 函数接受三个参数：array1、array2 和 key。它使用 reduce 方法遍历 array1 中的每个对象，通过比较 key 属性值查找是否存在相同的对象。如果存在，则使用 Object.assign 方法合并对象的属性；如果不存在，则将当前对象添加到结果数组中。最后返回合并后的结果数组 mergedArray。请注意我们使用 .slice() 方法来创建 array2 的副本，以免对原始数组进行修改。
+// 您可以根据具体的需求修改函数，以适应不同的属性和数据结构。
+
+```
