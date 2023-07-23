@@ -533,6 +533,7 @@ console.log("script end");
 //setTimeout
 ```
 
+#2个数组对象合并相同的key
 ```javascript
 function mergeArrayObjects(array1, array2, key) {
   const mergedArray = array1.reduce((result, obj) => {
@@ -575,4 +576,147 @@ console.log(mergedArray);
 // 在上述示例中，mergeArrayObjects 函数接受三个参数：array1、array2 和 key。它使用 reduce 方法遍历 array1 中的每个对象，通过比较 key 属性值查找是否存在相同的对象。如果存在，则使用 Object.assign 方法合并对象的属性；如果不存在，则将当前对象添加到结果数组中。最后返回合并后的结果数组 mergedArray。请注意我们使用 .slice() 方法来创建 array2 的副本，以免对原始数组进行修改。
 // 您可以根据具体的需求修改函数，以适应不同的属性和数据结构。
 
+```
+
+#### 数组转树
+```javascript
+function arrayToTree(array, idKey = 'id', parentKey = 'parentId', childrenKey = 'children') {
+  const treeMap = {};
+  const result = [];
+
+  // 构建节点映射表
+  array.forEach(node => {
+    node[childrenKey] = [];
+    treeMap[node[idKey]] = node;
+  });
+
+  // 构建树结构
+  array.forEach(node => {
+    const parentValue = node[parentKey];
+    if (parentValue !== null && treeMap[parentValue]) {
+      treeMap[parentValue][childrenKey].push(node);
+    } else {
+      result.push(node);
+    }
+  });
+
+  return result;
+}
+
+
+// 示例数组
+const array = [
+  { id: 1, name: 'Root', parentId: null },
+  { id: 2, name: 'Child 1', parentId: 1 },
+  { id: 3, name: 'Child 2', parentId: 1 },
+  { id: 4, name: 'Grandchild 1', parentId: 2 },
+  { id: 5, name: 'Grandchild 2', parentId: 2 },
+  { id: 6, name: 'Grandchild 3', parentId: 3 }
+];
+
+// 转换数组为树结构
+const tree = arrayToTree(array);
+
+console.log(tree);
+// 输出结果如下：
+[
+  {
+    id: 1,
+    name: 'Root',
+    parentId: null,
+    children: [
+      {
+        id: 2,
+        name: 'Child 1',
+        parentId: 1,
+        children: [
+          { id: 4, name: 'Grandchild 1', parentId: 2, children: [] },
+          { id: 5, name: 'Grandchild 2', parentId: 2, children: [] }
+        ]
+      },
+      {
+        id: 3,
+        name: 'Child 2',
+        parentId: 1,
+        children: [
+          { id: 6, name: 'Grandchild 3', parentId: 3, children: [] }
+        ]
+      }
+    ]
+  }
+]
+
+```
+
+### 树转数组
+
+```javascript
+function treeToArray(tree, childrenKey = 'children') {
+  const result = [];
+
+  function flatten(node) {
+    const flattenedNode = { ...node };
+    if (flattenedNode[childrenKey]) {
+      delete flattenedNode[childrenKey];
+    }
+    result.push(flattenedNode);
+
+    if (node[childrenKey] && Array.isArray(node[childrenKey])) {
+      node[childrenKey].forEach(child => {
+        flatten(child);
+      });
+    }
+  }
+
+  flatten(tree);
+
+  return result;
+}
+
+
+// 示例树结构
+const tree = {
+  id: 1,
+  name: 'Root',
+  children: [
+    {
+      id: 2,
+      name: 'Child 1',
+      children: [
+        {
+          id: 4,
+          name: 'Grandchild 1'
+        },
+        {
+          id: 5,
+          name: 'Grandchild 2'
+        }
+      ]
+    },
+    {
+      id: 3,
+      name: 'Child 2',
+      children: [
+        {
+          id: 6,
+          name: 'Grandchild 3'
+        }
+      ]
+    }
+  ]
+};
+
+// 转换树结构为数组
+const array = treeToArray(tree);
+
+console.log(array);
+
+[
+  { id: 1, name: 'Root' },
+  { id: 2, name: 'Child 1' },
+  { id: 4, name: 'Grandchild 1' },
+  { id: 5, name: 'Grandchild 2' },
+  { id: 3, name: 'Child 2' },
+  { id: 6, name: 'Grandchild 3' }
+]
 ```
