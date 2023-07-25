@@ -549,6 +549,13 @@ function mergeArrayObjects(array1, array2, key) {
   return mergedArray;
 }
 
+function mergeArrays(array1, array2, key) {
+   return array1.map(item=>{
+    const same = array2.filter(item2=>item[key]===item2[key])
+    return same[0] ? Object.assgin(item,same[0]):item
+   })
+}
+
 // 示例数据
 const array1 = [
   { id: 1, name: 'Apple', price: 2 },
@@ -720,3 +727,5 @@ console.log(array);
   { id: 6, name: 'Grandchild 3' }
 ]
 ```
+
+  

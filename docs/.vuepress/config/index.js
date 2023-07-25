@@ -19,6 +19,10 @@ module.exports = {
       link: "/view/sidebar/myinfo",
     },
     {
+      text: "友情链接",
+      link: "/view/sidebar/friendlyLinks",
+    },
+    {
       text: "typescript",
       link: "/view/sidebar/typescript",
     },
