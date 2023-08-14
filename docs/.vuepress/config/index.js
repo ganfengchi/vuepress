@@ -32,6 +32,10 @@ module.exports = {
       collapsible: true,
       children: [
         {
+          text: "rollup 构建项目",
+          link: "/view/sidebar/myExperience/rollup",
+        },
+        {
           text: "虚拟列表",
           link: "/view/sidebar/myExperience/virtualList",
         },
