@@ -97,7 +97,7 @@ export default {
 
 ### 配置 tsconfig.json   tsc --init 生成
 
-```JSON
+```json
 
 
 {
