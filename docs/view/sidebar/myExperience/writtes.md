@@ -533,11 +533,12 @@ console.log("script end");
 //setTimeout
 ```
 
-#2个数组对象合并相同的key
+#2 个数组对象合并相同的 key
+
 ```javascript
 function mergeArrayObjects(array1, array2, key) {
   const mergedArray = array1.reduce((result, obj) => {
-    const existingObj = result.find(item => item[key] === obj[key]);
+    const existingObj = result.find((item) => item[key] === obj[key]);
     if (existingObj) {
       Object.assign(existingObj, obj); // 合并对象属性
     } else {
@@ -550,55 +551,60 @@ function mergeArrayObjects(array1, array2, key) {
 }
 
 function mergeArrays(array1, array2, key) {
-   return array1.map(item=>{
-    const same = array2.filter(item2=>item[key]===item2[key])
-    return same[0] ? Object.assgin(item,same[0]):item
-   })
+  return array1.map((item) => {
+    const same = array2.filter((item2) => item[key] === item2[key]);
+    return same[0] ? Object.assgin(item, same[0]) : item;
+  });
 }
 
 // 示例数据
 const array1 = [
-  { id: 1, name: 'Apple', price: 2 },
-  { id: 2, name: 'Banana', price: 3 },
-  { id: 3, name: 'Orange', price: 4 }
+  { id: 1, name: "Apple", price: 2 },
+  { id: 2, name: "Banana", price: 3 },
+  { id: 3, name: "Orange", price: 4 },
 ];
 
 const array2 = [
-  { id: 2, name: 'Banana', quantity: 5 },
-  { id: 3, name: 'Orange', quantity: 3 },
-  { id: 4, name: 'Grape', quantity: 6 }
+  { id: 2, name: "Banana", quantity: 5 },
+  { id: 3, name: "Orange", quantity: 3 },
+  { id: 4, name: "Grape", quantity: 6 },
 ];
 
 // 合并相同 id 值的数组对象
-const mergedArray = mergeArrayObjects(array1, array2, 'id');
+const mergedArray = mergeArrayObjects(array1, array2, "id");
 
 console.log(mergedArray);
 
 [
-  { id: 1, name: 'Apple', price: 2 },
-  { id: 2, name: 'Banana', price: 3, quantity: 5 },
-  { id: 3, name: 'Orange', price: 4, quantity: 3 },
-  { id: 4, name: 'Grape', quantity: 6 }
-]
+  { id: 1, name: "Apple", price: 2 },
+  { id: 2, name: "Banana", price: 3, quantity: 5 },
+  { id: 3, name: "Orange", price: 4, quantity: 3 },
+  { id: 4, name: "Grape", quantity: 6 },
+];
 // 在上述示例中，mergeArrayObjects 函数接受三个参数：array1、array2 和 key。它使用 reduce 方法遍历 array1 中的每个对象，通过比较 key 属性值查找是否存在相同的对象。如果存在，则使用 Object.assign 方法合并对象的属性；如果不存在，则将当前对象添加到结果数组中。最后返回合并后的结果数组 mergedArray。请注意我们使用 .slice() 方法来创建 array2 的副本，以免对原始数组进行修改。
 // 您可以根据具体的需求修改函数，以适应不同的属性和数据结构。
-
 ```
 
 #### 数组转树
+
 ```javascript
-function arrayToTree(array, idKey = 'id', parentKey = 'parentId', childrenKey = 'children') {
+function arrayToTree(
+  array,
+  idKey = "id",
+  parentKey = "parentId",
+  childrenKey = "children"
+) {
   const treeMap = {};
   const result = [];
 
   // 构建节点映射表
-  array.forEach(node => {
+  array.forEach((node) => {
     node[childrenKey] = [];
     treeMap[node[idKey]] = node;
   });
 
   // 构建树结构
-  array.forEach(node => {
+  array.forEach((node) => {
     const parentValue = node[parentKey];
     if (parentValue !== null && treeMap[parentValue]) {
       treeMap[parentValue][childrenKey].push(node);
@@ -610,15 +616,14 @@ function arrayToTree(array, idKey = 'id', parentKey = 'parentId', childrenKey = 
   return result;
 }
 
-
 // 示例数组
 const array = [
-  { id: 1, name: 'Root', parentId: null },
-  { id: 2, name: 'Child 1', parentId: 1 },
-  { id: 3, name: 'Child 2', parentId: 1 },
-  { id: 4, name: 'Grandchild 1', parentId: 2 },
-  { id: 5, name: 'Grandchild 2', parentId: 2 },
-  { id: 6, name: 'Grandchild 3', parentId: 3 }
+  { id: 1, name: "Root", parentId: null },
+  { id: 2, name: "Child 1", parentId: 1 },
+  { id: 3, name: "Child 2", parentId: 1 },
+  { id: 4, name: "Grandchild 1", parentId: 2 },
+  { id: 5, name: "Grandchild 2", parentId: 2 },
+  { id: 6, name: "Grandchild 3", parentId: 3 },
 ];
 
 // 转换数组为树结构
@@ -629,36 +634,33 @@ console.log(tree);
 [
   {
     id: 1,
-    name: 'Root',
+    name: "Root",
     parentId: null,
     children: [
       {
         id: 2,
-        name: 'Child 1',
+        name: "Child 1",
         parentId: 1,
         children: [
-          { id: 4, name: 'Grandchild 1', parentId: 2, children: [] },
-          { id: 5, name: 'Grandchild 2', parentId: 2, children: [] }
-        ]
+          { id: 4, name: "Grandchild 1", parentId: 2, children: [] },
+          { id: 5, name: "Grandchild 2", parentId: 2, children: [] },
+        ],
       },
       {
         id: 3,
-        name: 'Child 2',
+        name: "Child 2",
         parentId: 1,
-        children: [
-          { id: 6, name: 'Grandchild 3', parentId: 3, children: [] }
-        ]
-      }
-    ]
-  }
-]
-
+        children: [{ id: 6, name: "Grandchild 3", parentId: 3, children: [] }],
+      },
+    ],
+  },
+];
 ```
 
 ### 树转数组
 
 ```javascript
-function treeToArray(tree, childrenKey = 'children') {
+function treeToArray(tree, childrenKey = "children") {
   const result = [];
 
   function flatten(node) {
@@ -669,7 +671,7 @@ function treeToArray(tree, childrenKey = 'children') {
     result.push(flattenedNode);
 
     if (node[childrenKey] && Array.isArray(node[childrenKey])) {
-      node[childrenKey].forEach(child => {
+      node[childrenKey].forEach((child) => {
         flatten(child);
       });
     }
@@ -680,37 +682,36 @@ function treeToArray(tree, childrenKey = 'children') {
   return result;
 }
 
-
 // 示例树结构
 const tree = {
   id: 1,
-  name: 'Root',
+  name: "Root",
   children: [
     {
       id: 2,
-      name: 'Child 1',
+      name: "Child 1",
       children: [
         {
           id: 4,
-          name: 'Grandchild 1'
+          name: "Grandchild 1",
         },
         {
           id: 5,
-          name: 'Grandchild 2'
-        }
-      ]
+          name: "Grandchild 2",
+        },
+      ],
     },
     {
       id: 3,
-      name: 'Child 2',
+      name: "Child 2",
       children: [
         {
           id: 6,
-          name: 'Grandchild 3'
-        }
-      ]
-    }
-  ]
+          name: "Grandchild 3",
+        },
+      ],
+    },
+  ],
 };
 
 // 转换树结构为数组
@@ -719,13 +720,66 @@ const array = treeToArray(tree);
 console.log(array);
 
 [
-  { id: 1, name: 'Root' },
-  { id: 2, name: 'Child 1' },
-  { id: 4, name: 'Grandchild 1' },
-  { id: 5, name: 'Grandchild 2' },
-  { id: 3, name: 'Child 2' },
-  { id: 6, name: 'Grandchild 3' }
-]
+  { id: 1, name: "Root" },
+  { id: 2, name: "Child 1" },
+  { id: 4, name: "Grandchild 1" },
+  { id: 5, name: "Grandchild 2" },
+  { id: 3, name: "Child 2" },
+  { id: 6, name: "Grandchild 3" },
+];
 ```
 
-  
+### 控制请求并发数量
+
+```javascript
+const urls = [];
+for (let i = 0; i <= 100; i++) {
+  urls.push(`https:jsonplaceholder.typicode.com/todos/${i}`);
+}
+
+function concurRequest(baseUrls, maxNum) {
+  //返回Promise 
+  return new Promise((resolve, reject) => {
+    if (baseUrls.length === 0) {   //如果urls的长度为0 return
+      resolve([]);
+      return;
+    }
+    //最后return的结果
+    const results = [];
+
+    let index = 0; //下一个请求的下标
+    let count = 0; //当前请求的完成数量
+    //发送请求函数
+    async function request() {
+      if (index === baseUrls.length) {
+        return;
+      }
+      const i = index;
+      const url = baseUrls[index];
+      index++;
+      try {
+        const res = await fetch(url);
+        results[i] = res;
+      } catch (err) {
+        results[i] = err;
+      } finally {
+        count++;
+        if (count === baseUrls.length) {
+          console.log("over");
+          resolve(results);
+        }
+        request();//每次完成一个请求调用一次接口
+      }
+    }
+    const times = Math.min(maxNum, baseUrls.length);//第一次调用的最大并发数量
+    for (let i = 0; i < times; i++) {
+      request();
+    }
+    console.log(results);
+  });
+}
+
+concurRequest(urls, 20).then((res) => {
+  console.log(res);
+});
+```
