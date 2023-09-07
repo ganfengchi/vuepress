@@ -32,6 +32,10 @@ module.exports = {
       collapsible: true,
       children: [
         {
+          text: "SSO单点登录",
+          link: "/view/sidebar/myExperience/sso",
+        },
+        {
           text: "rollup 构建项目",
           link: "/view/sidebar/myExperience/rollup",
         },
