@@ -32,6 +32,10 @@ module.exports = {
       collapsible: true,
       children: [
         {
+          text: "如何用jsonp获取数据",
+          link: "/view/sidebar/myExperience/jsonp",
+        },
+        {
           text: "SSO单点登录",
           link: "/view/sidebar/myExperience/sso",
         },
