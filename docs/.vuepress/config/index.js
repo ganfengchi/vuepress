@@ -31,6 +31,11 @@ module.exports = {
       text: "很多有用的杂文",
       collapsible: true,
       children: [
+        
+        {
+          text: "ai 聊天机器人",
+          link: "/view/sidebar/myExperience/aiRobot",
+        },
         {
           text: "如何用jsonp获取数据",
           link: "/view/sidebar/myExperience/jsonp",

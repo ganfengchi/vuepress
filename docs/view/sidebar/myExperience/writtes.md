@@ -738,9 +738,10 @@ for (let i = 0; i <= 100; i++) {
 }
 
 function concurRequest(baseUrls, maxNum) {
-  //返回Promise 
+  //返回Promise
   return new Promise((resolve, reject) => {
-    if (baseUrls.length === 0) {   //如果urls的长度为0 return
+    if (baseUrls.length === 0) {
+      //如果urls的长度为0 return
       resolve([]);
       return;
     }
@@ -768,10 +769,10 @@ function concurRequest(baseUrls, maxNum) {
           console.log("over");
           resolve(results);
         }
-        request();//每次完成一个请求调用一次接口
+        request(); //每次完成一个请求调用一次接口
       }
     }
-    const times = Math.min(maxNum, baseUrls.length);//第一次调用的最大并发数量
+    const times = Math.min(maxNum, baseUrls.length); //第一次调用的最大并发数量
     for (let i = 0; i < times; i++) {
       request();
     }
@@ -782,4 +783,96 @@ function concurRequest(baseUrls, maxNum) {
 concurRequest(urls, 20).then((res) => {
   console.log(res);
 });
+```
+
+# 按键映射
+
+```javascript
+/**
+ *
+ * @parmas { string } digits 数组按键 例如 '23'
+ * @return {string[]} 按键的排列组合
+ */
+
+function keyboardMap(digits) {
+  var map = [, , "abc", "def", "ghi", "jkl", "mmo", "pqrs", "tuv", "wzyz"];
+  var result = [];
+  for (var i = 0; i < digits.length; i++) {
+    result = _compose(result, map[digits[i]]);
+  }
+
+  function _compose(arr1, arr2) {
+    var r = [];
+    if (arr1.length === 0) return arr2;
+    if (arr2.length === 0) return arr1;
+    for (var i = 0; i < arr1.length; i++) {
+      for (var j = 0; j < arr2.length; j++) {
+        r.push(arr1[i] + arr2[j]);
+      }
+    }
+    return r;
+  }
+  return result;
+}
+console.log(keyboardMap("23"));
+```
+
+### 验证回文串
+
+```javascript
+/**
+ * 回文串 一个字符串忽略大小写和非字符数字 ,正在读反着读都是一样的
+ * eg ：  A man  ,a plan , a canal :  Pan ama
+ *
+ */
+
+var isPanlindrome = function (s) {
+  const isValid = (c) => (c >= "a" && c <= "z") || (c >= "0" && c <= "9");
+  let i = 0,
+    j = s.length - 1;
+  while (j >= i) {
+    const left = s[i].toLowerCase(), //忽略大小写
+      right = s[j].toLowerCase();
+    if (!isValid(left)) {
+      //不是有效的字符向右移
+      i++;
+    } else if (!isValid(right)) {
+      //不是有效的字符向左移
+      j--;
+    } else if (left === right) {
+      //相等都想中间移动
+      i++;
+      j--;
+    } else {
+      return false;
+    }
+  }
+  return true; //循环完了返回 true
+};
+```
+### 最长回文串
+```javascript
+var longestPalindrome = function(s) {
+     if( s.length < 2){
+         return s   
+     }else{
+          let start = 0;
+          let maxlength =1;
+          function getHuiString(left,right){
+              while(left>=0 && right < s.length && s[left] === s[right]){
+                  if(right - left + 1 > maxlength){
+                      maxlength = right - left + 1
+                      start = left
+                  }
+                  left--;
+                  right++;
+              }  
+          }
+          for(var i=0;i<s.length;i++){
+              getHuiString(i-1 , i+1)
+              getHuiString(i,i+1)
+          }
+          return s.substring(start ,start+maxlength)
+     }
+};
 ```
