@@ -31,7 +31,14 @@ module.exports = {
       text: "很多有用的杂文",
       collapsible: true,
       children: [
-        
+        {
+          text: "瀑布流",
+          link: "/view/sidebar/myExperience/warteFall",
+        },
+        {
+          text: "vite 基本配置",
+          link: "/view/sidebar/myExperience/vite",
+        },
         {
           text: "ai 聊天机器人",
           link: "/view/sidebar/myExperience/aiRobot",
