@@ -73,8 +73,8 @@ function setPoisions() {
     console.log(minTop,'minTop')
     img.style.top = minTop + "px";
     //重新设置数组这一项的下一个top值
-    var index = nextTops.indexOf(minTop); //得到得使用第几列top值
-    nextTops[index] += img.height + info.space;
+    var index = nextTops.indexOf(minTop); //找到到得使用第几列top值
+    nextTops[index] += img.height + info.space; //img当前的高加上间隙
     //横坐标
     var left = (index + 1) * info.space + index * imgWidth;
     img.style.left = left + "px";
