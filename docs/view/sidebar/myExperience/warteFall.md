@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import axios from "axios";
 import { onMounted, ref, watch, nextTick } from "vue";
-
+import { throttle } from 'lodash-es'
 const list = ref<any>([]);
 
 const getListData = () => {
@@ -63,7 +63,7 @@ function setPoisions() {
   var nextTops = new Array(info.columns); // 该数组的长度为列数，每一项表示该列的下一个图片的纵坐标
 
   nextTops.fill(0); //将数组的每一项填充为0
-   //加定时器是为了    
+ 
   setTimeout(() => {
     for (var i = 0; i < divContainer?.children.length; i++) {
     var img = divContainer.children[i];
@@ -87,9 +87,8 @@ function setPoisions() {
 }
 
 onMounted(() => {
-  nextTick(() => {
     setPoisions();
-  });
+    window.onresize =throttle(setPoisions,1000)
 });
 watch(
   () => list.value,
@@ -113,6 +112,7 @@ watch(
   }
 }
 </style>
+
 
 ```
 
