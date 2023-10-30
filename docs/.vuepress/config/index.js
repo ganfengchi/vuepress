@@ -32,6 +32,10 @@ module.exports = {
       collapsible: true,
       children: [
         {
+          text: "echats 地图 ",
+          link: "/view/sidebar/myExperience/echartsMap",
+        },
+        {
           text: "瀑布流",
           link: "/view/sidebar/myExperience/warteFall",
         },
