@@ -3,7 +3,7 @@
 
 
 支持各省XXX人数统计
-从高到低过滤 等等
+从高到低过滤点击高亮 等等
 
 
 ![atl echarts_map_01](../../../../docs/.vuepress/public/images/echarts_map_01.png)
@@ -15,13 +15,13 @@ import { ref, onMounted } from "vue";
 import * as echarts from 'echarts';
 
 
-
 /**
  * 重点 geojson.cn/ 把中国地图数据下载下来放到本地 用fetch读取数据 
  * vue 要放在public目录下不然读取不了
  * 中国地图数据（GeoJSON 及 TopoJSON 数据）
  * 
 */
+
  const  CHAINA_PROVINCE = ref ([
     {
       value: 6039,
@@ -175,33 +175,37 @@ const  initEcahrtMap = async ()=>{
         title:{
             text:"各省注册用户统计图"
         },
-        tooltip:{
+        tooltip:{//提示框组件。
             trigger: 'item', 
-            formatter:`{b} 人数为 {c} 人`,
+            triggerOn: 'click',//点击事件
+            formatter:`{b} 人数为 {c} 人`, //提示框浮层内容
         },
-        visualMap:{
-            left:"left",
-            top:"center",
-            min:0,
-            max:10000,
-            text:['高','低'],
-            calculable:true,
-            
+        visualMap:{// 是视觉映射组件
+            left:"left",//组件离容器左侧的距离。
+            top:"center",//组件离容器上侧的距离。
+            min:0,//指定 visualMapContinuous 组件的允许的最小值
+            max:10000,////指定 visualMapContinuous 组件的允许的最大值
+            text:['高','低'],//text 中的顺序，其实试试就知道。
+            calculable:true,//是否显示拖拽用的手柄（手柄能拖拽调整选中范围）
         },
         series:[
             {
                 type:'map',
-                map:'China',
-                roam:true,
-                scaleLimit:{
+                map:'China',//使用 registerMap 注册的地图名称。
+                roam:true,//是否开启鼠标缩放和平移漫游。
+                scaleLimit:{//滚轮缩放的极限控制，通过min, max最小和最大的缩放值，默认的缩放为1。
                     max:3,
                     min:0.7
                 },
-                data:CHAINA_PROVINCE.value
+                data:CHAINA_PROVINCE.value//地图系列中的数据内容数组
+
             }
         ]
     })
     myEcharts.hideLoading()
+    myEcharts.on('click',(event)=>{
+        console.log(event,'click')
+    })
 }
 
 onMounted(() => {
