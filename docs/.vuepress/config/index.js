@@ -32,6 +32,10 @@ module.exports = {
       collapsible: true,
       children: [
         {
+          text: "vue3 用customRef 来做防抖针对input ",
+          link: "/view/sidebar/myExperience/customRef",
+        },
+        {
           text: "echats 地图 ",
           link: "/view/sidebar/myExperience/echartsMap",
         },
