@@ -32,6 +32,10 @@ module.exports = {
       collapsible: true,
       children: [
         {
+          text: "面试题 算法之类的 ",
+          link: "/view/sidebar/myExperience/calc",
+        },
+        {
           text: "vue3 用customRef 来做防抖针对input ",
           link: "/view/sidebar/myExperience/customRef",
         },
