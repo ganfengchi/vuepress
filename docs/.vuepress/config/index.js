@@ -32,6 +32,10 @@ module.exports = {
       collapsible: true,
       children: [
         {
+          text: "代码下雨效果",
+          link: "/view/sidebar/myExperience/codeRain",
+        },
+        {
           text: "面试题 算法之类的 ",
           link: "/view/sidebar/myExperience/calc",
         },
