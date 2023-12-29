@@ -31,6 +31,11 @@ module.exports = {
       text: "很多有用的杂文",
       collapsible: true,
       children: [
+        
+        {
+          text: "封装虚拟列表",
+          link: "/view/sidebar/myExperience/virtuallist_class",
+        },
         {
           text: "代码下雨效果",
           link: "/view/sidebar/myExperience/codeRain",
