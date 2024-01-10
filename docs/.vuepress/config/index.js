@@ -298,6 +298,10 @@ module.exports = {
         },
       ],
     },
+    { 
+      text: "mongoDB 非关系型数据量",
+      link: "/view/sidebar/mongo",
+    },
     {
       text: "vue3",
       collapsible: true,
