@@ -1,4 +1,4 @@
-# mongoDB 非关系型数据量
+# mongoDB 非关系型数据库
 
 [[toc]]
 

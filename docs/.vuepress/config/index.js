@@ -299,7 +299,7 @@ module.exports = {
       ],
     },
     { 
-      text: "mongoDB 非关系型数据量",
+      text: "mongoDB 非关系型数据库",
       link: "/view/sidebar/mongo",
     },
     {
@@ -385,6 +385,10 @@ module.exports = {
         {
           text: "Express 相关知识",
           link: "/view/sidebar/node/03",
+        },
+        {
+          text: "node知识重新梳理(path,fs,http,模块化,express,mongodb...等等)",
+          link: "/view/sidebar/node/04",
         },
       ],
     },
