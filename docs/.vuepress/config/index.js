@@ -14,10 +14,10 @@ module.exports = {
     // },
   ],
   sidebar: [
-    {
-      text: "I want to say",
-      link: "/view/sidebar/myinfo",
-    },
+    // {
+    //   text: "I want to say",
+    //   link: "/view/sidebar/myinfo",
+    // },
     {
       text: "友情链接",
       link: "/view/sidebar/friendlyLinks",
