@@ -31,6 +31,10 @@ module.exports = {
       text: "很多有用的杂文",
       collapsible: true,
       children: [
+        {
+          text: "Proxy代理 Reflect反射",
+          link: "/view/sidebar/myExperience/Proxy_Reflect.md",
+        },
         
         {
           text: "封装虚拟列表",

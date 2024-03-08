@@ -48,8 +48,8 @@ module.exports = {
         // 仓库配置
         repoLabel: 'github 仓库',
         repo: 'https://github.com/ganfengchi',
-        editLink: false
+        editLink: false,
         // 设置默认主题使用的插件
-        // themePlugins: {}
+        themePlugins: {}
     }),
 }
