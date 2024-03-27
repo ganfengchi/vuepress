@@ -627,3 +627,26 @@ var str = 'aasccsdjsaasssdddaassdasdamxjkemdl'
 const result = str.split('').reduce((acc, pre) =>(a[b]++ || (a[b] = 1),acc), {})
 console.log(result)
 ```
+### 三位一逗算法
+```javascript
+   //     请编写 formatNum 函数，将数字格式化金额格式，每三位数加入逗号：
+      //    var money = 34782632
+      //添加方法 money.formatNum（），输出"34,782,632
+      var money = 34782632;
+      function formatNum(money) {
+        let str = money.toString();
+        var res = "";
+
+        let len = str.length;
+        for (var i = 0; i < len; i++) {
+          console.log(str[len - 1 - i]);
+
+
+          let  emtyDou  = i > 0 && i % 3 === 0 ? "," : ""
+        //   str[len - 1 - i]   数字向前取
+          res = str[len - 1 - i] + emtyDou  + res;
+        }
+        return res;
+      }
+      formatNum(money);
+      ```
