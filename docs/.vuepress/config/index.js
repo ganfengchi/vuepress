@@ -31,7 +31,10 @@ module.exports = {
       text: "很多有用的杂文",
       collapsible: true,
       children: [
-        vueHook
+        {
+          text: "无限视差滚动",
+          link: "/view/sidebar/myExperience/InfiniteScrolling.md",
+        },
         {
           text: "vueHook 封装",
           link: "/view/sidebar/myExperience/vueHook.md",
