@@ -31,6 +31,11 @@ module.exports = {
       text: "很多有用的杂文",
       collapsible: true,
       children: [
+        
+        {
+          text: "webpackSplitChunks webpack分包策略", 
+          link: "/view/sidebar/myExperience/webpackSplitChunks.md",
+        },
         {
           text: "自定义css变量延时控制动画",
           link: "/view/sidebar/myExperience/delayAnimation.md",

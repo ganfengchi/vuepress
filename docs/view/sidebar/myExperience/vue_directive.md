@@ -1,5 +1,100 @@
 # 常用的 Vue 自定义指令
 
+
+### v-slide 元素平滑上升指令
+```vue 
+//组件中
+<template>
+  <div class="container">
+    <div v-slide class="item">1</div>
+    <div v-slide class="item">2</div>
+    <div v-slide class="item">3</div>
+    <div v-slide class="item">4</div>
+    <div v-slide class="item">5</div>
+    <div v-slide class="item">6</div>
+    <div v-slide class="item">7</div>
+    <div v-slide class="item">8</div>
+    <div v-slide class="item">9</div>
+    <div v-slide class="item">10</div>
+  </div>
+</template>
+<style lang="scss" scoped>
+.item {
+  width: 600px;
+  height: 500px;
+  margin: 50px;
+  font-size: 80px;
+  line-height: 500px;
+  color: #ffffff;
+  text-align: center;
+}
+.container :nth-child(odd) {
+  background-color: red;
+}
+.container :nth-child(even) {
+  background-color: rgb(78 181 23);
+}
+</style>
+
+```
+
+```javascript
+const DISTANCE = 150;
+const DURATION = 1000;
+
+const animationMap = new WeakMap();
+
+const ob = new IntersectionObserver(entries => {
+  for (const entry of entries) {
+    if (entry.isIntersecting) {
+      const animation = animationMap.get(entry.target);
+      animation.play();
+      ob.unobserve(entry.target);
+    }
+  }
+});
+
+function isBelowViewport(el) {
+  const rect = el.getBoundingClientRect();
+  return rect.top > window.innerHeight;
+}
+const slide = {
+  mounted(el) {
+    if (!isBelowViewport) {
+      return;
+    }
+    const animation = el.animate(
+      [
+        {
+          transform: `translateY(${DISTANCE}px)`,
+          opacity: 0.5
+        },
+        {
+          transform: "translateY(0)",
+          opacity: 1
+        }
+      ],
+      {
+        duration: DURATION,
+        easing: "ease"
+      }
+    );
+    animation.pause();
+    animationMap.set(el, animation);
+    ob.observe(el);
+  },
+  unmounted(el) {
+    ob.unobserve(el);
+  }
+};
+export default slide;
+
+```
+```js
+import slide from "@/views/directives/index.js";
+app.directive("slide", slide);
+
+```
 ### vue directive
 
 在 Vue，除了核心功能默认内置的指令 `( v-model 和 v-show )`，Vue 也允许注册自定义指令。它的作用价值在于当开发人员在某些场景下需要对普通 DOM 元素进行操作。<br/>
