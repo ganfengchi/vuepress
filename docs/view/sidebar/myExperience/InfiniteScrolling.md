@@ -1,23 +1,5 @@
 # 无限视差滚动
 
-
-
-<video width="800" height="400" controls>
-  <source src="/docs/.vuepress/public/video/无限视差滚动效果.mp4" type="video/mp4">
-  <source src="/docs/.vuepress/public/video/无限视差滚动效果.mp4" type="video/ogg">
-  您的浏览器不支持视频标签。
-</video>
-
-<iframe 
-src="../../../.vuepress/public//video/无限视差滚动效果.mp4" 
-scrolling="no" 
-frameborder="no" 
-framespacing="0" 
-allowfullscreen="true" 
-height=600 
-width=800> 
-</iframe>
-
 ```html
 <!DOCTYPE html>
 <html lang="en">
