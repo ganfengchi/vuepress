@@ -32,6 +32,10 @@ module.exports = {
       collapsible: true,
       children: [
         {
+          text: "自定义css变量延时控制动画",
+          link: "/view/sidebar/myExperience/delayAnimation.md",
+        },
+        {
           text: "无限视差滚动",
           link: "/view/sidebar/myExperience/InfiniteScrolling.md",
         },
