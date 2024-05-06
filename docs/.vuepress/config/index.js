@@ -28,9 +28,18 @@ module.exports = {
     },
 
     {
-      text: "很多有用的杂文",
+      text: "日常的一些笔记之类的杂文",
       collapsible: true,
       children: [
+
+        {
+          text: "vue3 pinia 手写持久化插件", 
+          link: "/view/sidebar/myExperience/persistPinia.md",
+        },
+        {
+          text: "vueUse 常用的hooks", 
+          link: "/view/sidebar/myExperience/vueUseHooks.md",
+        },
         
         {
           text: "webpackSplitChunks webpack分包策略", 
