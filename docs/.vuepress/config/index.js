@@ -31,7 +31,10 @@ module.exports = {
       text: "日常的一些笔记之类的杂文",
       collapsible: true,
       children: [
-
+        {
+          text: "大文件切片 用利用 woker线程", 
+          link: "/view/sidebar/myExperience/fileslice.md",
+        },
         {
           text: "vue3 pinia 手写持久化插件", 
           link: "/view/sidebar/myExperience/persistPinia.md",
