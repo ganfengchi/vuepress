@@ -32,6 +32,10 @@ module.exports = {
       collapsible: true,
       children: [
         {
+          text: "useDefer 利用浏览器空闲时间渲染dom", 
+          link: "/view/sidebar/myExperience/defer.md",
+        },
+        {
           text: "大文件切片 用利用 woker线程", 
           link: "/view/sidebar/myExperience/fileslice.md",
         },
